@@ -1,6 +1,8 @@
 #ifndef __IMAGER_PPM_HPP__
 #define __IMAGER_PPM_HPP__
 
+#include "../Vec3/Vec3.hpp"
+
 #include <iostream>
 #include <string>
 
@@ -34,10 +36,8 @@ class ImagerPPM
 			{
 				for (int j = 0;j < m_width;++j)
 				{
-					TYPE r = static_cast<TYPE>(j)/m_width;
-					TYPE g = static_cast<TYPE>(i)/m_height;
-					TYPE b = static_cast<TYPE>(0.2f);
-					std::cout << static_cast<TYPE_OUT>(r*BIAS) << " " << static_cast<TYPE_OUT>(g*BIAS) << " " << static_cast<TYPE_OUT>(b*BIAS) << std::endl;
+					Vec3<TYPE> col(static_cast<TYPE>(j)/m_width, static_cast<TYPE>(i)/m_height, 0.2f);
+					std::cout << static_cast<TYPE_OUT>(col.x() * BIAS) << " " << static_cast<TYPE_OUT>(col.y() * BIAS) << " " << static_cast<TYPE_OUT>(col.z() * BIAS) << std::endl;
 				}
 			}
 		}

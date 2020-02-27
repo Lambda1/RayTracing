@@ -15,6 +15,7 @@ template<class TYPE>
 class Hittable
 {
 	public:
+		virtual ~Hittable(){}
 		virtual bool Hit(const Ray<TYPE> &r, const TYPE &t_min, const float &t_max, HitRecord<TYPE> &rec) const = 0;
 };
 

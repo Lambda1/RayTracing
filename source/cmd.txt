@@ -1,1 +1,1 @@
-clang++ -std=c++17 ./main.cpp ./ImagerPPM/ImagerPPM.hpp ./Vec3/Vec3.hpp
+clang++ -std=c++17 ./main.cpp ./ImagerPPM/ImagerPPM.hpp ./Vec3/Vec3.hpp ./Ray/Ray.hpp

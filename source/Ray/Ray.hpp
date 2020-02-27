@@ -10,15 +10,15 @@
 template<class TYPE>
 class Ray
 {
-	Vec3 A, B;
+	Vec3<TYPE> A, B;
 	public:
 		Ray(){}
-		Ray(const Vec3 &a, const Vec3 &b) : A(a), B(b) {}
+		Ray(const Vec3<TYPE> &a, const Vec3<TYPE> &b) : A(a), B(b) {}
 		~Ray(){}
 
-		Vec3 Origin() const { return A; }
-		Vec3 Direction() const { return B; }
-		Vec3 PointAtParameter(const float &t) const { return A + t*B; }
+		Vec3<TYPE> Origin() const { return A; }
+		Vec3<TYPE> Direction() const { return B; }
+		Vec3<TYPE> PointAtParameter(const float &t) const { return A + t*B; }
 };
 
 #endif

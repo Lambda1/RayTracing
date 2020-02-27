@@ -118,6 +118,7 @@ template<class TYPE> Vec3<TYPE> operator+(const Vec3<TYPE> &lhs, const TYPE &rhs
 template<class TYPE> Vec3<TYPE> operator-(const Vec3<TYPE> &lhs, const Vec3<TYPE> &rhs) { return Vec3<TYPE>(lhs.e[0] - rhs.e[0], lhs.e[1] - rhs.e[1], lhs.e[2] - rhs.e[2]); }
 template<class TYPE> Vec3<TYPE> operator*(const Vec3<TYPE> &lhs, const Vec3<TYPE> &rhs) { return Vec3<TYPE>(lhs.e[0] * rhs.e[0], lhs.e[1] * rhs.e[1], lhs.e[2] * rhs.e[2]); }
 template<class TYPE> Vec3<TYPE> operator*(const Vec3<TYPE> &lhs, const TYPE &rhs) { return Vec3<TYPE>(lhs.e[0] * rhs, lhs.e[1] * rhs, lhs.e[2] * rhs); }
+template<class TYPE> Vec3<TYPE> operator*(const TYPE &lhs,const Vec3<TYPE> &rhs) { return Vec3<TYPE>(rhs.e[0] * lhs, rhs.e[1] * lhs, rhs.e[2] * lhs); }
 template<class TYPE> Vec3<TYPE> operator/(const Vec3<TYPE> &lhs, const Vec3<TYPE> &rhs) { return Vec3<TYPE>(lhs.e[0] / rhs.e[0], lhs.e[1] / rhs.e[1], lhs.e[2] / rhs.e[2]); }
 template<class TYPE> Vec3<TYPE> operator/(const Vec3<TYPE> &lhs, const TYPE &rhs) { return Vec3<TYPE>(lhs.e[0] / rhs, lhs.e[1] / rhs, lhs.e[2] / rhs); }
 

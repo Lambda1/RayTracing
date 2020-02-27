@@ -1,6 +1,7 @@
 #include "./ImagerPPM/ImagerPPM.hpp"
 #include "./Vec3/Vec3.hpp"
 #include "./Ray/Ray.hpp"
+#include "./Sphere/Sphere.hpp"
 
 using type = float;
 
@@ -56,7 +57,9 @@ int main(int argc, char *argv[])
 	Vec3<type> horizontal(4.0f, 0.0f, 0.0f);
 	Vec3<type> vertical(0.0f, 2.0f, 0.0f);
 	Vec3<type> origin(0.0f, 0.0f, 0.0f);
-	
+
+	Sphere<type> ss;
+
 	// Calc
 	for (int i = height-1;i >= 0;--i)
 	{

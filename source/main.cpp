@@ -4,6 +4,7 @@
 #include "./Sphere/Sphere.hpp"
 #include "./Hittable/HittableList.hpp"
 #include "./Random/Random.hpp"
+#include "./Camera/Camera.hpp"
 
 #include <cfloat>
 
@@ -25,13 +26,10 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 int main(int argc, char *argv[])
 {
 	// Image
-	const unsigned int width = 200, height = 100;
+	const unsigned int width = 200, height = 100, width_bias = width;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
-	Vec3<type> lower_left_corner(-2.0f, -1.0f, -1.0f);
-	Vec3<type> horizontal(4.0f, 0.0f, 0.0f);
-	Vec3<type> vertical(0.0f, 2.0f, 0.0f);
-	Vec3<type> origin(0.0f, 0.0f, 0.0f);
+	Camera camera;
 	// Object
 	HittableList<type> object_list;
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f)));
@@ -42,19 +40,23 @@ int main(int argc, char *argv[])
 	{
 		for (int j = 0;j < width;++j)
 		{
-			type u = static_cast<type>(j) / static_cast<type>(width);
-			type v = static_cast<type>(i) / static_cast<type>(height);
-			Ray<type> r(origin, lower_left_corner + u*horizontal + v*vertical);
-			
-			Vec3<type> p = r.PointAtParameter(2.0f);
-
-			imager.Set(i,j,color(r, object_list));
+			// Antialiasing
+			Vec3<type> col(0.0f, 0.0f, 0.0f);
+			for (int k = 0;k < width_bias;++k)
+			{
+				type u = static_cast<type>(j + MyRand::Random<type>()) / static_cast<type>(width);
+				type v = static_cast<type>(i + MyRand::Random<type>()) / static_cast<type>(height);
+				Ray<type> r = camera.GetRay(u, v);
+				col += color(r, object_list);
+			}
+			imager.Set(i, j, col/static_cast<type>(width_bias));
 		}
 	}
 
 	// Output Image
 	imager.OutputHeader();
 	imager.OutputImageReverse();
+
 
 	return 0;
 }

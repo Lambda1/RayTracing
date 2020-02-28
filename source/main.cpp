@@ -24,7 +24,8 @@ Vec3<type> RandomInUnitSphere()
 Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 {
 	HitRecord<type> rec;
-	if (world.Hit(r, 0.0f, MAX_TYPE, rec))
+	// Shadow Acne対策
+	if (world.Hit(r, 0.001f, MAX_TYPE, rec))
 	{
 		// 球Sにレイを飛ばす(50%減衰).
 		// NOTE:中心:(p+N), 点s:RandomInUnitSphere()
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
 				col += color(r, object_list);
 			}
 			col /= static_cast<type>(iteration);
+			// gamma補正(gamma-2)
 			col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
 			imager.Set(i, j, col);
 		}

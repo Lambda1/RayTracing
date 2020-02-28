@@ -3,6 +3,7 @@
 #include "./Ray/Ray.hpp"
 #include "./Sphere/Sphere.hpp"
 #include "./Hittable/HittableList.hpp"
+#include "./Random/Random.hpp"
 
 #include <cfloat>
 

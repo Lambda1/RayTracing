@@ -3,12 +3,15 @@
 
 #include "../Ray/Ray.hpp"
 
+class Material;
+
 template<class TYPE>
 struct HitRecord
 {
 	TYPE t;
 	Vec3<TYPE> p;
 	Vec3<TYPE> normal;
+	Material *mat_ptr;
 };
 
 template<class TYPE>

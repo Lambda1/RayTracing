@@ -11,12 +11,24 @@
 using type = float;
 constexpr type MAX_TYPE = FLT_MAX;
 
+Vec3<type> RandomInUnitSphere()
+{
+	Vec3<type> p;
+	do
+	{
+		p = 2.0f * Vec3<type>(MyRand::Random<type>(), MyRand::Random<type>(), MyRand::Random<type>()) - Vec3<type>(1.0f, 1.0f, 1.0f);
+	}while(p.SquaredLength() >= 1.0f);
+	return p;
+}
+
 Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 {
 	HitRecord<type> rec;
 	if (world.Hit(r, 0.0f, MAX_TYPE, rec))
 	{
-		return 0.5f * Vec3<type>(rec.normal.x()+1.0f, rec.normal.y()+1.0f, rec.normal.z()+1.0f);
+		// (p+N)
+		Vec3<type> target = (rec.p + rec.normal) + RandomInUnitSphere();
+		return 0.5f * color(Ray<type>(rec.p, target-rec.p), world);
 	}
 	const Vec3<type> unit_direction = MyVec::UnitVector(r.Direction());
 	type t = 0.5f * (unit_direction.y() + 1.0f);
@@ -26,7 +38,7 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 int main(int argc, char *argv[])
 {
 	// Image
-	const unsigned int width = 200, height = 100, iteration = 1000;
+	const unsigned int width = 200, height = 100, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
 	Camera camera;

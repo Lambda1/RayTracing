@@ -26,7 +26,7 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 int main(int argc, char *argv[])
 {
 	// Image
-	const unsigned int width = 200, height = 100, width_bias = width;
+	const unsigned int width = 200, height = 100, iteration = 1000;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
 	Camera camera;
@@ -42,14 +42,14 @@ int main(int argc, char *argv[])
 		{
 			// Antialiasing
 			Vec3<type> col(0.0f, 0.0f, 0.0f);
-			for (int k = 0;k < width_bias;++k)
+			for (int k = 0;k < iteration;++k)
 			{
 				type u = static_cast<type>(j + MyRand::Random<type>()) / static_cast<type>(width);
 				type v = static_cast<type>(i + MyRand::Random<type>()) / static_cast<type>(height);
 				Ray<type> r = camera.GetRay(u, v);
 				col += color(r, object_list);
 			}
-			imager.Set(i, j, col/static_cast<type>(width_bias));
+			imager.Set(i, j, col/static_cast<type>(iteration));
 		}
 	}
 

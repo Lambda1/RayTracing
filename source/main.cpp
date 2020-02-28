@@ -63,7 +63,10 @@ int main(int argc, char *argv[])
 				Ray<type> r = camera.GetRay(u, v);
 				col += color(r, object_list);
 			}
-			imager.Set(i, j, col/static_cast<type>(iteration));
+			col /= static_cast<type>(iteration);
+			std::cout << col << std::endl;
+			//col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
+			imager.Set(i, j, col);
 		}
 	}
 

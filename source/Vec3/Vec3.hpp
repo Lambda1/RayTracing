@@ -79,9 +79,9 @@ class Vec3
 		inline Vec3<TYPE>& operator/=(const TYPE &rhs)
 		{
 			const TYPE k = static_cast<TYPE>(1.0) / rhs;
-			e[0] *= rhs;
-			e[1] *= rhs;
-			e[2] *= rhs;
+			e[0] *= k;
+			e[1] *= k;
+			e[2] *= k;
 			return *this;
 		}
 

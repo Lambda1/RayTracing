@@ -40,7 +40,7 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 int main(int argc, char *argv[])
 {
 	// Image
-	const unsigned int width = 200, height = 100, iteration = 100;
+	const unsigned int width = 400, height = 200, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
 	Camera camera;
@@ -64,8 +64,7 @@ int main(int argc, char *argv[])
 				col += color(r, object_list);
 			}
 			col /= static_cast<type>(iteration);
-			std::cout << col << std::endl;
-			//col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
+			col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
 			imager.Set(i, j, col);
 		}
 	}

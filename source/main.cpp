@@ -26,8 +26,10 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 	HitRecord<type> rec;
 	if (world.Hit(r, 0.0f, MAX_TYPE, rec))
 	{
-		// (p+N)
+		// 球Sにレイを飛ばす(50%減衰).
+		// NOTE:中心:(p+N), 点s:RandomInUnitSphere()
 		Vec3<type> target = (rec.p + rec.normal) + RandomInUnitSphere();
+		// NOTE: Ray(原点(p), 目標点(target-p))
 		return 0.5f * color(Ray<type>(rec.p, target-rec.p), world);
 	}
 	const Vec3<type> unit_direction = MyVec::UnitVector(r.Direction());

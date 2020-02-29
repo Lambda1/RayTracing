@@ -6,17 +6,13 @@
 #include "./Random/Random.hpp"
 #include "./Camera/Camera.hpp"
 #include "./Material/Lambertian.hpp"
+#include "./Material/Metal.hpp"
 
 #include <cfloat>
 
 using type = float;
 constexpr type MAX_TYPE = FLT_MAX;
 
-/*
- * 反射ベクトル: R = v+2*B
- * B = -dot(v,n)*n : 正射影ベクトル
- * R = v - 2 * dot(v,n)*n
- */
 Vec3<type> reflect(const Vec3<type> &v, const Vec3<type> &n)
 {
 	return v - 2.0f * MyVec::Dot(v, n) * n;
@@ -55,7 +51,8 @@ int main(int argc, char *argv[])
 	HittableList<type> object_list;
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f, new Lambertian(Vec3<type>(0.8f, 0.3f, 0.3f)))));
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -100.5f, -1.0f), 100.0f, new Lambertian(Vec3<type>(0.8f, 0.8f, 0.0f)))));
-	//object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.8f, 0.0f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.6f, 0.2f), 0.3f))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.8f, 0.8f), 1.0f))));
 
 	// Calc
 	for (int i = height-1;i >= 0;--i)

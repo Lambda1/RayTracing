@@ -1,1 +1,1 @@
-clang++ -std=c++17 ./main.cpp ./ImagerPPM/ImagerPPM.hpp ./Vec3/Vec3.hpp ./Ray/Ray.hpp ./Sphere/Sphere.hpp ./Hittable/HittableList.hpp ./Random/Random.hpp ./Camera/Camera.hpp
+clang++ -std=c++17 ./main.cpp ./ImagerPPM/ImagerPPM.hpp ./Vec3/Vec3.hpp ./Ray/Ray.hpp ./Sphere/Sphere.hpp ./Hittable/HittableList.hpp ./Random/Random.hpp ./Camera/Camera.hpp ./Material/Lambertian.hpp

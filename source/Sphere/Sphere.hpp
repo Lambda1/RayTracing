@@ -4,14 +4,17 @@
 #include "../Ray/Ray.hpp"
 #include "../Hittable/Hittable.hpp"
 
+#include <memory>
+
 template<class TYPE>
 class Sphere : public Hittable<TYPE>
 {
 	Vec3<TYPE> m_center;
 	TYPE m_radius;
+	std::shared_ptr<Material> m_material_ptr;
 	public:
 	Sphere(): m_center(), m_radius(1.0f) {};
-	Sphere(const Vec3<TYPE> &center, const TYPE &radius): m_center(center), m_radius(radius) {};
+	Sphere(const Vec3<TYPE> &center, const TYPE &radius, Material *mat): m_center(center), m_radius(radius), m_material_ptr(mat) {};
 	~Sphere(){}
 
 	/*
@@ -46,6 +49,7 @@ class Sphere : public Hittable<TYPE>
 				rec.t = solution;
 				rec.p = r.PointAtParameter(rec.t);
 				rec.normal = (rec.p - m_center) / m_radius;
+				rec.mat_ptr = m_material_ptr;
 				return true;
 			}
 			// もう一つ解を調査(tmin < t < tmax)
@@ -55,6 +59,7 @@ class Sphere : public Hittable<TYPE>
 				rec.t = solution;
 				rec.p = r.PointAtParameter(rec.t);
 				rec.normal = (rec.p - m_center) / m_radius;
+				rec.mat_ptr = m_material_ptr;
 				return true;
 			}
 		}

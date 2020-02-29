@@ -3,6 +3,8 @@
 
 #include "../Ray/Ray.hpp"
 
+#include <memory>
+
 class Material;
 
 template<class TYPE>
@@ -11,7 +13,7 @@ struct HitRecord
 	TYPE t;
 	Vec3<TYPE> p;
 	Vec3<TYPE> normal;
-	Material *mat_ptr;
+	std::shared_ptr<Material> mat_ptr;
 };
 
 template<class TYPE>

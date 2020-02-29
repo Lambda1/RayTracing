@@ -2,8 +2,8 @@
 #define __VEC3_HPP__
 
 /*
-   Vector3クラス
-NOTE: (x,y,z)と(r,g,b)併用
+	Vector3クラス
+	NOTE: (x,y,z)と(r,g,b)併用
 */
 
 #include <iostream>

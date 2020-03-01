@@ -49,12 +49,15 @@ int main(int argc, char *argv[])
 	const unsigned int width = 400, height = 200, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
-	Camera camera;
+	Camera camera(Vec3<TYPE>(-2,2,1), Vec3<TYPE>(0,0,-1), Vec3<TYPE>(0.0f, 1.0f, 0.0f) , 30.0f, static_cast<TYPE>(width)/static_cast<TYPE>(height));
 	TYPE R = std::cos(MY_PI/4.0f);
 	// Object
 	HittableList<type> object_list;
-	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-R, 0.0f, -1.0f), R, new Lambertian(Vec3<type>(0.0f, 0.0f, 1.0f)))));
-	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>( R, 0.0f, -1.0f), R, new Lambertian(Vec3<type>(1.0f, 0.0f, 0.0f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f, new Lambertian(Vec3<type>(0.1f, 0.2f, 0.5f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -100.5f, -1.0f), 100.0f, new Lambertian(Vec3<type>(0.8f, 0.8f, 0.0f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.6f, 0.2f), 0.3f))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-1.0f, 0.0f, -1.0f), 0.5f, new Dielectric(1.5f))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-1.0f, 0.0f, -1.0f), -0.45f, new Dielectric(1.5f))));
 
 	// Calc
 	for (int i = height-1;i >= 0;--i)

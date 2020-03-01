@@ -21,16 +21,23 @@ class Camera
 	{
 	}
 	// vfov is top to bottom in degrees.
-	Camera(const TYPE &v_fov,const TYPE &aspect)
+	Camera(const Vec3<TYPE> &lookfrom, const Vec3<TYPE> &lookat, const Vec3<TYPE> vup, const TYPE &v_fov,const TYPE &aspect)
 	{
+		Vec3<TYPE> u, v, w;
+		
 		TYPE theta = v_fov * MY_PI/180.0f;
 		// h = tan(theta/2)
 		TYPE half_height = std::tan(theta/2.0f);
 		TYPE half_width = aspect * half_height;
-		m_lower_left_corner = Vec3<TYPE>(-half_width, -half_height, -1.0f);
-		m_horizontal = Vec3<TYPE>(2.0f*half_width, 0.0f, 0.0f);
-		m_vertical = Vec3<TYPE>(0.0f, 2.0f*half_height, 0.0f);
-		m_origin = Vec3<TYPE>(0.0f, 0.0f, 0.0f);
+		
+		m_origin = lookfrom;
+		w = MyVec::UnitVector(lookfrom - lookat);
+		u = MyVec::UnitVector(MyVec::Cross(vup, w));
+		v = MyVec::Cross(w, u);
+
+		m_lower_left_corner = m_origin - half_width*u - half_height*v - w;
+		m_horizontal = 2.0f * half_width * u;
+		m_vertical = 2.0f * half_height * v;
 	}
 	~Camera()
 	{

@@ -43,7 +43,7 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world, const int &dept
 
 void RandomScene(HittableList<TYPE> &object_list)
 {
-	const int n = 5;
+	const int n = 500;
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -1000.0f, 0.0f), 1000.0f, new Lambertian(Vec3<type>(0.5f, 0.5f, 0.5f)))));
 	int i = i;
 
@@ -83,10 +83,10 @@ int main(int argc, char *argv[])
 	// Def
 	constexpr TYPE MY_PI = 3.14159265f;
 	// Image
-	const unsigned int width = 400, height = 200, iteration = 1;
+	const unsigned int width = 1200, height = 800, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
-	Vec3<TYPE> lookfrom(13.0f, 2.0f, 3.0f);
+	Vec3<TYPE> lookfrom(15.0f, 2.0f, 5.0f);
 	Vec3<TYPE> lookat(0.0f, 0.0f, 0.0f);
 	TYPE dist_to_focus = 10.0f;
 	TYPE aperture = 0.1f;

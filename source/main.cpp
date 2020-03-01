@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	HittableList<type> object_list;
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f, new Lambertian(Vec3<type>(0.1f, 0.2f, 0.5f)))));
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -100.5f, -1.0f), 100.0f, new Lambertian(Vec3<type>(0.8f, 0.8f, 0.0f)))));
-	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.6f, 0.2f), 0.0f))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.6f, 0.2f), 0.3f))));
 	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-1.0f, 0.0f, -1.0f), 0.5f, new Dielectric(1.5f))));
 
 	// Calc

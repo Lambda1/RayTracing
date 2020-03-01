@@ -49,7 +49,11 @@ int main(int argc, char *argv[])
 	const unsigned int width = 400, height = 200, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
-	Camera camera(Vec3<TYPE>(-2,2,1), Vec3<TYPE>(0,0,-1), Vec3<TYPE>(0.0f, 1.0f, 0.0f) , 30.0f, static_cast<TYPE>(width)/static_cast<TYPE>(height));
+	Vec3<TYPE> lookfrom(3.0f, 3.0f, 2.0f);
+	Vec3<TYPE> lookat(0.0f, 0.0f, -1.0f);
+	TYPE dist_to_focus = (lookfrom - lookat).Length();
+	TYPE aperture = 2.0f;
+	Camera camera(lookfrom, lookat, Vec3<TYPE>(0.0f, 1.0f, 0.0f) , 20.0f, static_cast<TYPE>(width)/static_cast<TYPE>(height), aperture, dist_to_focus);
 	TYPE R = std::cos(MY_PI/4.0f);
 	// Object
 	HittableList<type> object_list;

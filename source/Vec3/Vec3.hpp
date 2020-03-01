@@ -2,8 +2,8 @@
 #define __VEC3_HPP__
 
 /*
-   Vector3クラス
-NOTE: (x,y,z)と(r,g,b)併用
+	Vector3クラス
+	NOTE: (x,y,z)と(r,g,b)併用
 */
 
 #include <iostream>
@@ -79,9 +79,9 @@ class Vec3
 		inline Vec3<TYPE>& operator/=(const TYPE &rhs)
 		{
 			const TYPE k = static_cast<TYPE>(1.0) / rhs;
-			e[0] *= rhs;
-			e[1] *= rhs;
-			e[2] *= rhs;
+			e[0] *= k;
+			e[1] *= k;
+			e[2] *= k;
 			return *this;
 		}
 

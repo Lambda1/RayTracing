@@ -5,32 +5,36 @@
 #include "./Hittable/HittableList.hpp"
 #include "./Random/Random.hpp"
 #include "./Camera/Camera.hpp"
+#include "./Material/Lambertian.hpp"
+#include "./Material/Metal.hpp"
+#include "./Material/Dielectric.hpp"
 
 #include <cfloat>
 
 using type = float;
 constexpr type MAX_TYPE = FLT_MAX;
 
-Vec3<type> RandomInUnitSphere()
+Vec3<type> reflect(const Vec3<type> &v, const Vec3<type> &n)
 {
-	Vec3<type> p;
-	do
-	{
-		p = 2.0f * Vec3<type>(MyRand::Random<type>(), MyRand::Random<type>(), MyRand::Random<type>()) - Vec3<type>(1.0f, 1.0f, 1.0f);
-	}while(p.SquaredLength() >= 1.0f);
-	return p;
+	return v - 2.0f * MyVec::Dot(v, n) * n;
 }
 
-Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
+Vec3<type> color(const Ray<type> &r,const Hittable<type> &world, const int &depth)
 {
 	HitRecord<type> rec;
-	if (world.Hit(r, 0.0f, MAX_TYPE, rec))
+	// Shadow Acne対策
+	if (world.Hit(r, 0.001f, MAX_TYPE, rec))
 	{
-		// 球Sにレイを飛ばす(50%減衰).
-		// NOTE:中心:(p+N), 点s:RandomInUnitSphere()
-		Vec3<type> target = (rec.p + rec.normal) + RandomInUnitSphere();
-		// NOTE: Ray(原点(p), 目標点(target-p))
-		return 0.5f * color(Ray<type>(rec.p, target-rec.p), world);
+		Ray<type> scattered;
+		Vec3<type> attenuation;
+		if (depth < 50.0f && rec.mat_ptr->Scatter(r, rec, attenuation, scattered))
+		{
+			return attenuation * color(scattered, world, depth+1.0f);
+		}
+		else
+		{
+			return Vec3(0.0f, 0.0f, 0.0f); 
+		}
 	}
 	const Vec3<type> unit_direction = MyVec::UnitVector(r.Direction());
 	type t = 0.5f * (unit_direction.y() + 1.0f);
@@ -40,14 +44,16 @@ Vec3<type> color(const Ray<type> &r,const Hittable<type> &world)
 int main(int argc, char *argv[])
 {
 	// Image
-	const unsigned int width = 200, height = 100, iteration = 100;
+	const unsigned int width = 400, height = 200, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
 	Camera camera;
 	// Object
 	HittableList<type> object_list;
-	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f)));
-	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -100.5f, -1.0f), 100.0f)));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, 0.0f, -1.0f), 0.5f, new Lambertian(Vec3<type>(0.1f, 0.2f, 0.5f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(0.0f, -100.5f, -1.0f), 100.0f, new Lambertian(Vec3<type>(0.8f, 0.8f, 0.0f)))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(1.0f, 0.0f, -1.0f), 0.5f, new Metal(Vec3<type>(0.8f, 0.6f, 0.2f), 0.3f))));
+	object_list.GetList().push_back(std::unique_ptr<Sphere<type>>(new Sphere<type>(Vec3<type>(-1.0f, 0.0f, -1.0f), 0.5f, new Dielectric(1.5f))));
 
 	// Calc
 	for (int i = height-1;i >= 0;--i)
@@ -61,9 +67,12 @@ int main(int argc, char *argv[])
 				type u = static_cast<type>(j + MyRand::Random<type>()) / static_cast<type>(width);
 				type v = static_cast<type>(i + MyRand::Random<type>()) / static_cast<type>(height);
 				Ray<type> r = camera.GetRay(u, v);
-				col += color(r, object_list);
+				col += color(r, object_list, 0.0f);
 			}
-			imager.Set(i, j, col/static_cast<type>(iteration));
+			col /= static_cast<type>(iteration);
+			// gamma補正(gamma-2)
+			col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
+			imager.Set(i, j, col);
 		}
 	}
 

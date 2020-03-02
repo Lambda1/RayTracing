@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	// Def
 	constexpr TYPE MY_PI = 3.14159265f;
 	// Image
-	const unsigned int width = 1200, height = 800, iteration = 100;
+	const unsigned int width = 800, height = 400, iteration = 100;
 	ImagerPPM<type> imager(width, height, "P3");
 	// Camera
 	Vec3<TYPE> lookfrom(15.0f, 2.0f, 5.0f);
@@ -115,6 +115,7 @@ int main(int argc, char *argv[])
 			col = Vec3<type>(std::sqrt(col[0]), std::sqrt(col[1]), std::sqrt(col[2]));
 			imager.Set(i, j, col);
 		}
+		std::cerr << i << std::endl;
 	}
 
 	// Output Image
